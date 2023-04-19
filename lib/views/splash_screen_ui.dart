@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ffi';
-
 import "package:flutter/material.dart";
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:me_travel_app/views/login_ui.dart';
 
@@ -16,7 +16,6 @@ class SplashScreenUI extends StatefulWidget {
 class _SplashScreenUIState extends State<SplashScreenUI> {
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(
       Duration(
         seconds: 3,

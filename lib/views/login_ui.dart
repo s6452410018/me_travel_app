@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:me_travel_app/views/register_ui.dart';
 
 class LoginUI extends StatefulWidget {
   const LoginUI({super.key});
@@ -22,13 +25,10 @@ class _LoginUIState extends State<LoginUI> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Center(
+      body: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.03,
-              ),
               Image.asset(
                 'assets/images/travel.png',
                 width: MediaQuery.of(context).size.width * 0.3,
@@ -121,7 +121,7 @@ class _LoginUIState extends State<LoginUI> {
                 ),
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(
-                    MediaQuery.of(context).size.width * 0.07,
+                    MediaQuery.of(context).size.width * 0.2,
                     MediaQuery.of(context).size.width * 0.125,
                   ),
                   backgroundColor: Colors.green,
@@ -144,7 +144,14 @@ class _LoginUIState extends State<LoginUI> {
                 height: MediaQuery.of(context).size.width * 0.025,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterUI(),
+                    ),
+                  );
+                },
                 child: Text(
                   'ลงทะเบียนเข้าใช้งาน',
                   style: GoogleFonts.kanit(),
