@@ -45,14 +45,14 @@ class DBhelper {
   }
 
   //Medtod Sign in
-  static Future<User?> signinUser(String? username, String? Password) async {
+  static Future<User?> signinUser(String? username, String? password) async {
     //ติดต่อ Database
     final db = await DBhelper.db();
     //เอาข้อมูล username, password ที่ส่งมาไปดูว่ามีในตาราง usertb ไหม
     List<Map<String, dynamic>> result = await db.query(
       'usertb',
       where: 'username = ? AND Password = ?',
-      whereArgs: [username, Password],
+      whereArgs: [username, password],
     );
 
     //ตรวจสอบผลการดูข้อมูลว่ามีไหม

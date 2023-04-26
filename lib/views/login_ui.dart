@@ -14,6 +14,42 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
+  //สร้างตัวแปร(ตัว Controller) ไว้เก็บค่าจาก textfield
+  TextEditingController usernameCtrl = TextEditingController(text: '');
+  TextEditingController passwordCtrl = TextEditingController(text: '');
+
+  //เปิด/ปิด การมองเห็นรหัสผ่าน
+  bool isShowPassword = false;
+
+  //Method แสดง Dialog เป็นข้อความเตือน
+  showWarningDialog(BuildContext context, String msg) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'คำเตื่อน',
+              style: GoogleFonts.kanit(),
+            ),
+            content: Text(
+              msg,
+              style: GoogleFonts.kanit(),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'OK',
+                  style: GoogleFonts.kanit(),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +105,10 @@ class _LoginUIState extends State<LoginUI> {
                   left: MediaQuery.of(context).size.width * 0.15,
                   right: MediaQuery.of(context).size.width * 0.15,
                 ),
-                child: TextField(),
+                child: TextField(
+                  controller: usernameCtrl,
+                  style: GoogleFonts.kanit(),
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.05,
@@ -98,14 +137,25 @@ class _LoginUIState extends State<LoginUI> {
                   right: MediaQuery.of(context).size.width * 0.15,
                 ),
                 child: TextField(
-                  obscureText: true,
+                  controller: passwordCtrl,
+                  style: GoogleFonts.kanit(),
+                  obscureText: !isShowPassword,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.visibility_off,
-                        color: Colors.green,
-                      ),
+                      onPressed: () {
+                        setState(() {
+                          isShowPassword = !isShowPassword;
+                        });
+                      },
+                      icon: isShowPassword == true
+                          ? Icon(
+                              Icons.visibility,
+                              color: Colors.green,
+                            )
+                          : Icon(
+                              Icons.visibility_off,
+                              color: Colors.green,
+                            ),
                     ),
                   ),
                 ),
@@ -114,7 +164,14 @@ class _LoginUIState extends State<LoginUI> {
                 height: MediaQuery.of(context).size.width * 0.05,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  //validate ค่าที่รับมาจาก Textfield ว่าว่างหรือไม่
+                  if (usernameCtrl.text.trim().length == 0) {
+                    showWarningDialog(context, 'กรุณากรอกชื่อผู้ใช้');
+                  } else if (passwordCtrl.text.trim().isEmpty) {
+                    showWarningDialog(context, 'กรุณากรอกรหัสผ่าน');
+                  } else {}
+                },
                 child: Text(
                   'SIGN IN',
                   style: GoogleFonts.kanit(),
