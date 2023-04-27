@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:me_travel_app/models/user.dart';
+import 'package:me_travel_app/utils/db_helper.dart';
 import 'package:me_travel_app/views/register_ui.dart';
+import 'package:me_travel_app/views/travel_home_ui.dart';
 
 class LoginUI extends StatefulWidget {
   const LoginUI({super.key});
@@ -48,6 +51,28 @@ class _LoginUIState extends State<LoginUI> {
             ],
           );
         });
+  }
+
+  //Method checkSignin เพื่อตรวจสอบ username และ password
+  checkSignin(BuildContext context) async {
+    //ตรวจสอบ username และ password มีในฐานข้อมูลหรือไม่
+    User? user = await DBhelper.signinUser(
+      usernameCtrl.text,
+      passwordCtrl.text,
+    );
+    //ถ้า user เป็น null แสดงว่า username หรือ password ไม่ถูกต้อง
+    if (user == null) {
+      //แสดง Dialog เตือนว่า username หรือ password ไม่ถูกต้อง
+      showWarningDialog(context, 'username/password ไม่ถูกต้อง');
+    } else {
+      //username/password ถูกต้อง เปิดไปหน้า TravelHomeUI
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TravelHomeUI(user: user),
+        ),
+      );
+    }
   }
 
   @override
@@ -170,7 +195,9 @@ class _LoginUIState extends State<LoginUI> {
                     showWarningDialog(context, 'กรุณากรอกชื่อผู้ใช้');
                   } else if (passwordCtrl.text.trim().isEmpty) {
                     showWarningDialog(context, 'กรุณากรอกรหัสผ่าน');
-                  } else {}
+                  } else {
+                    checkSignin(context);
+                  }
                 },
                 child: Text(
                   'SIGN IN',
